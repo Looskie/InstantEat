@@ -1,0 +1,13 @@
+name: InstantEat
+author: Stellrow, DEVLOOSKIE
+version: 2.1
+api-version: 1.16
+main: com.looskie.InstantEat.InstantEat
+description: Allows to instantly eat or speed up eating a food
+commands:
+  instantreload:
+    description: Reloads the instanteat plugin
+    permission: instanteat.reload
+permissions:
+  instanteat.reload:
+    description: Reloads the instantEat plugin
