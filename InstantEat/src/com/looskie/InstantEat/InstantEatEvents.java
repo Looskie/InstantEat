@@ -1,5 +1,7 @@
 package com.looskie.InstantEat;
 
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.block.Container;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -8,13 +10,18 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class InstantEatEvents implements Listener {
-    private final InstantEat pl;
+import java.util.Random;
 
-    public InstantEatEvents(InstantEat pl) {
-        this.pl = pl;
+public class InstantEatEvents implements Listener {
+    private final InstantEat plugin;
+    private Random random;
+
+
+    public InstantEatEvents(InstantEat plugin) {
+        this.plugin = plugin;
     }
 
     @EventHandler
@@ -29,9 +36,9 @@ public class InstantEatEvents implements Listener {
             if(e.getPlayer().getFoodLevel()>=20){
                 return;
             }
-            if(pl.foods.containsKey(e.getItem().getType())){
+            if(plugin.foods.containsKey(e.getItem().getType())){
                 e.setCancelled(true);
-                eat(e.getPlayer(),e.getItem(),pl.foods.get(e.getItem().getType()));
+                eat(e.getPlayer(),e.getItem(),plugin.foods.get(e.getItem().getType()));
             }
         }
     }
@@ -43,20 +50,48 @@ public class InstantEatEvents implements Listener {
                         return;
                     }
                     if(p.getInventory().getItemInMainHand().equals(item)) {
-                        if(item.getType().toString() == "MILK_BUCKET") {
-                            for(PotionEffect effect:p.getActivePotionEffects()){
-                                p.removePotionEffect(effect.getType());
-                            }
-                        } else {
-                            Integer food[] = Foods.valueOf(item.getType().toString()).getValue();
-                            setItem(p, item);
-                            p.setFoodLevel(p.getFoodLevel() + food[0]);
-                            p.setSaturation(p.getSaturation() + food[1]);
+                        random = new Random();
+                        switch(item.getType().toString()) {
+                            case "MILK_BUCKET":
+                                for(PotionEffect effect:p.getActivePotionEffects()){
+                                    p.removePotionEffect(effect.getType());
+                                }
+                                p.getInventory().addItem(new ItemStack(Material.BUCKET));
+                                break;
+                            case "PUFFERFISH":
+                                double chance = random.nextDouble();
+                                p.sendMessage(String.valueOf(chance));
+                                if (chance < 0.50)
+                                    p.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 300, 2));
+                                else if (chance >= 0.80)
+                                    p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 300, 1));
+                                else if (chance <= 0.95)
+                                    p.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 1200, 3));
+                                break;
+                            case "ROTTEN_FLESH":
+                            case "POISONOUS_POTATO":
+                                double chanceFleshPotato = random.nextDouble();
+                                p.sendMessage(String.valueOf(chanceFleshPotato));
+                                if(chanceFleshPotato <= 0.80)
+                                    p.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 600, 0));
+                                break;
+                            case "SPIDER_EYE":
+                                p.addPotionEffect(new PotionEffect(PotionEffectType.POISON, 80, 0));
+                                break;
+                            case "RABBIT_STEW":
+                            case "MUSHROOM_STEW":
+                            case "BEETROOT_SOUP":
+                                p.getInventory().addItem(new ItemStack(Material.BOWL));
+                                break;
                         }
+                        Integer food[] = Foods.valueOf(item.getType().toString()).getValue();
+                        setItem(p, item);
+                        p.setFoodLevel(p.getFoodLevel() + food[0]);
+                        p.setSaturation(p.getSaturation() + food[1]);
                         item.setAmount(item.getAmount() - 1);
                     }
                 }
-            }.runTaskLater(pl,time);
+            }.runTaskLater(plugin,time);
 
     }
     private void setItem(Player p,ItemStack item){
@@ -68,7 +103,7 @@ public class InstantEatEvents implements Listener {
                 p.getInventory().setItemInMainHand(item);
                 p.updateInventory();
             }
-        }.runTaskLater(pl,1);
+        }.runTaskLater(plugin,1);
     }
     public enum Foods{
         APPLE(4, 2),
@@ -104,7 +139,12 @@ public class InstantEatEvents implements Listener {
         SWEET_BERRIES(2, 1),
         HONEY_BOTTLE(6, 1),
         MUSHROOM_STEW(6,7),
-        MILK_BUCKET(0,0);
+        MILK_BUCKET(0,0),
+        CHORUS_FRUIT(4,2),
+        PUFFERFISH(1,0),
+        ROTTEN_FLESH(4,1),
+        SPIDER_EYE(2,3),
+        POISONOUS_POTATO(2,1);
 
         private Integer[] value;
         private Foods(Integer value,Integer saturation){
