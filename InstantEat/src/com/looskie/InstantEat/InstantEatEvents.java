@@ -53,9 +53,8 @@ public class InstantEatEvents implements Listener {
                         random = new Random();
                         switch(item.getType().toString()) {
                             case "MILK_BUCKET":
-                                for(PotionEffect effect:p.getActivePotionEffects()){
+                                for(PotionEffect effect:p.getActivePotionEffects())
                                     p.removePotionEffect(effect.getType());
-                                }
                                 p.getInventory().addItem(new ItemStack(Material.BUCKET));
                                 break;
                             case "PUFFERFISH":
