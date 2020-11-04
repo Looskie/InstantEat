@@ -94,7 +94,6 @@ public class InstantEatEvents implements Listener {
 
     }
     private void setItem(Player p,ItemStack item){
-        p.getInventory().setItemInMainHand(null);
         new BukkitRunnable(){
 
             @Override
