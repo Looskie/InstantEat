@@ -52,6 +52,16 @@ public class InstantEatEvents implements Listener {
                     if(p.getInventory().getItemInMainHand().equals(item)) {
                         random = new Random();
                         switch(item.getType().toString()) {
+                            case "GOLDEN_APPLE":
+                                p.addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, 2400, 0));
+                                p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 100, 1));
+                                break;
+                            case "ENCHANTED_GOLDEN_APPLE":
+                                p.addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, 2400, 3));
+                                p.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 400, 1));
+                                p.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 6000, 0));
+                                p.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 6000, 0));
+                                break;
                             case "MILK_BUCKET":
                                 for(PotionEffect effect:p.getActivePotionEffects())
                                     p.removePotionEffect(effect.getType());
@@ -59,7 +69,6 @@ public class InstantEatEvents implements Listener {
                                 break;
                             case "PUFFERFISH":
                                 double chance = random.nextDouble();
-                                p.sendMessage(String.valueOf(chance));
                                 if (chance < 0.50)
                                     p.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 300, 2));
                                 else if (chance >= 0.80)
@@ -70,7 +79,6 @@ public class InstantEatEvents implements Listener {
                             case "ROTTEN_FLESH":
                             case "POISONOUS_POTATO":
                                 double chanceFleshPotato = random.nextDouble();
-                                p.sendMessage(String.valueOf(chanceFleshPotato));
                                 if(chanceFleshPotato <= 0.80)
                                     p.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 600, 0));
                                 break;
@@ -94,8 +102,8 @@ public class InstantEatEvents implements Listener {
 
     }
     private void setItem(Player p,ItemStack item){
+        p.getInventory().setItemInMainHand(null);
         new BukkitRunnable(){
-
             @Override
             public void run() {
                 p.getInventory().setItemInMainHand(item);

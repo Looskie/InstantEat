@@ -19,14 +19,14 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Desktop/spigot jars/spigot-1.15.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../../spigot jars/spigot-1.15.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/Desktop/spigot jars/spigot-1.15.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../../spigot jars/spigot-1.15.2.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="library" name="spigot-1.16.1" level="project" />
+    <orderEntry type="library" name="craftbukkit-1.16.4" level="project" />
   </component>
 </module>
