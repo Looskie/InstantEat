@@ -90,9 +90,11 @@ public class InstantEatEvents implements Listener {
                             case "BEETROOT_SOUP":
                                 p.getInventory().addItem(new ItemStack(Material.BOWL));
                                 break;
+                            case "HONEY_BOTTLE":
+                                p.getInventory().addItem(new ItemStack(Material.GLASS_BOTTLE));
+                                break;
                         }
                         Integer food[] = Foods.valueOf(item.getType().toString()).getValue();
-                        setItem(p, item);
                         p.setFoodLevel(p.getFoodLevel() + food[0]);
                         p.setSaturation(p.getSaturation() + food[1]);
                         item.setAmount(item.getAmount() - 1);
@@ -100,16 +102,6 @@ public class InstantEatEvents implements Listener {
                 }
             }.runTaskLater(plugin,time);
 
-    }
-    private void setItem(Player p,ItemStack item){
-        p.getInventory().setItemInMainHand(null);
-        new BukkitRunnable(){
-            @Override
-            public void run() {
-                p.getInventory().setItemInMainHand(item);
-                p.updateInventory();
-            }
-        }.runTaskLater(plugin,1);
     }
     public enum Foods{
         APPLE(4, 2),

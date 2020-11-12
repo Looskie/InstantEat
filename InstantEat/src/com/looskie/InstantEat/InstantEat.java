@@ -23,8 +23,7 @@ public class InstantEat extends JavaPlugin {
             if(sender instanceof Player) {
                 Player player = (Player) sender;
                 if(player.hasPermission("instanteat.reload")) {
-                    reloadConfig();
-                    player.sendMessage(ChatColor.GREEN + "Reloaded the config!");
+                    player.sendMessage(ChatColor.GREEN + "Actually, restarting the server for your changed config is a better idea... just sayinggg <3");
                 } else {
                     player.sendMessage(ChatColor.RED + "Sorry, but you do not have permission for this!" + "red");
                 }

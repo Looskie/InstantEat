@@ -1,6 +1,6 @@
 name: InstantEat
 author: Stellrow, DEVLOOSKIE
-version: 3.0
+version: 3.2
 api-version: 1.16
 main: com.looskie.InstantEat.InstantEat
 description: Allows to instantly eat or speed up eating a food
